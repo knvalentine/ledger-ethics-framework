@@ -132,4 +132,60 @@ Metrics:
 
 ---
 
-*End of document* 
+## Updated Architecture Overview (2025-07-11)
+
+The practical framework now follows a **two-layer model** that cleanly separates formal specification (Lean proofs) from pragmatic tooling used day-to-day.
+
+```
+┌──────────────────────────┐       ┌──────────────────────────────┐
+│  Spec Layer (Lean 4)     │       │  Application Layer (Python)  │
+│  vendor/ledger-ethics    │──────►│  CLI · API · Dashboard       │
+└──────────────────────────┘       └──────────────────────────────┘
+```
+
+* Spec layer: remains untouched, updated weekly by an automated GH Action.
+* Application layer: imports concepts, exposes usable commands and UIs.
+
+### Directory Layout
+```
+ledger-ethics-framework/
+├── cli/                 # `ledgercli` Typer commands
+├── server/              # FastAPI service (later phase)
+├── ui/                  # SvelteKit dashboard (later phase)
+├── adapters/            # Lean-bridge helpers (proof status, glossary)
+├── data/                # YAML → SQLite storage layers
+├── tests/               # pytest suite
+├── docs/                # MkDocs site
+├── vendor/ledger-ethics # Git submodule (spec layer)
+└── .github/workflows/   # CI + auto-update workflow
+```
+
+### Technology Stack
+* **Python 3.11**  + Typer (CLI) • Pydantic (models) • FastAPI (API)
+* **Storage**  YAML files → SQLite/Postgres migration path
+* **Frontend** SvelteKit + Tailwind (Phase II)
+* **Lean integration** shelling out to `lake` for proof status checks
+* **CI** GitHub Actions: lint (ruff), tests, auto-update submodule PR bot
+
+### Automated Submodule Refresh
+A weekly workflow (`update-ledger-ethics.yml`) already keeps the
+`vendor/ledger-ethics` submodule current by opening an automated PR.
+
+---
+
+## Immediate Action Items (Phase 0 Extension)
+
+| ID | Task | Owner | Status |
+|----|------|-------|--------|
+| 0.5 | Scaffold Python package (`cli/`, `data/`, etc.) | Engineering | ▢ |
+| 0.6 | Add Poetry/requirements, lint & test GH Action  | Engineering | ▢ |
+| 0.7 | Draft Pydantic models for YAML schema            | Engineering | ▢ |
+| 0.8 | Implement `ledgercli add` command + unit test    | Engineering | ▢ |
+| 0.9 | Document glossary mapping Lean ➜ plain English   | Docs        | ▢ |
+
+These items will bring the repo to a point where CI is green and the
+framework can record a basic ledger entry end-to-end.
+
+---
+
+*Document updated automatically by the assistant on 2025-07-11.* 

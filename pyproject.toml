@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ledger-ethics-framework"
+version = "0.0.1"
+description = "Practical tooling layer for the ledger-ethics Lean specification."
+authors = ["Ledger Ethics Team <maintainers@example.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+typer = {extras = ["all"], version = "^0.12.3"}
+pydantic = "^2.7.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+ruff = "^0.4.4"
+
+[build-system]
+requires = ["poetry-core>=1.6.0"]
+build-backend = "poetry.core.masonry.api" 
