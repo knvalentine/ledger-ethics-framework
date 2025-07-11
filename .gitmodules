@@ -1,0 +1,3 @@
+[submodule "vendor/ledger-ethics"]
+	path = vendor/ledger-ethics
+	url = ../ledger-ethics
